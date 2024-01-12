@@ -1,6 +1,6 @@
 mysql = {
-    'host':"localhost",
-    'user':"root",
-    'password':"",
-    'database':"datarepresentation"
+    'host':"annak83.mysql.pythonanywhere-services.com",
+    'user':"annak83",
+    'password':"datareppass",
+    'database':"annak83$datarepresentation"
 }

@@ -1,25 +1,26 @@
 import mysql.connector
 import dbconfig as cfg
-class BookDAO:
-    connection=""
-    cursor =''
-    host=       ''
-    user=       ''
-    password=   ''
-    database=   ''
-    
-    def __init__(self):
-        self.host=       cfg.mysql['host']
-        self.user=       cfg.mysql['user']
-        self.password=   cfg.mysql['password']
-        self.database=   cfg.mysql['database']
 
-    def getcursor(self): 
+class DataDAO:
+    connection = ""
+    cursor = ""
+    host = ""
+    user = ""
+    password = ""
+    database = ""
+
+    def __init__(self):
+        self.host = cfg.mysql['host']
+        self.user = cfg.mysql['user']
+        self.password = cfg.mysql['password']
+        self.database = cfg.mysql['database']
+
+    def getcursor(self):
         self.connection = mysql.connector.connect(
-            host=       self.host,
-            user=       self.user,
-            password=   self.password,
-            database=   self.database,
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database,
         )
         self.cursor = self.connection.cursor()
         return self.cursor
@@ -27,12 +28,11 @@ class BookDAO:
     def closeAll(self):
         self.connection.close()
         self.cursor.close()
-         
+
     def create(self, values):
         cursor = self.getcursor()
-        sql="insert into book (title,author, price) values (%s,%s,%s)"
+        sql = "INSERT INTO data (year, sex, age_group, average_height) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, values)
-
         self.connection.commit()
         newid = cursor.lastrowid
         self.closeAll()
@@ -40,22 +40,20 @@ class BookDAO:
 
     def getAll(self):
         cursor = self.getcursor()
-        sql="select * from book"
+        sql="select * from data"
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
-        print(results)
         for result in results:
-            print(result)
             returnArray.append(self.convertToDictionary(result))
         
         self.closeAll()
         return returnArray
 
-    def findByID(self, id):
+    def findByYear(self, year):
         cursor = self.getcursor()
-        sql="select * from book where id = %s"
-        values = (id,)
+        sql="select * from data where year = %s"
+        values = (year,)
 
         cursor.execute(sql, values)
         result = cursor.fetchone()
@@ -65,32 +63,35 @@ class BookDAO:
 
     def update(self, values):
         cursor = self.getcursor()
-        sql="update book set title= %s,author=%s, price=%s  where id = %s"
+        sql="update data set sex=%s, age_group= %s, average_height=%s  where year = %s"
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
-        
-    def delete(self, id):
-        cursor = self.getcursor()
-        sql="delete from book where id = %s"
-        values = (id,)
+        print("update done")
 
-        cursor.execute(sql, values)
-
-        self.connection.commit()
-        self.closeAll()
-        
-        print("delete done")
-
+    def delete(self, year):
+        try:
+            cursor = self.getcursor()
+            sql = "DELETE FROM data WHERE year = %s"
+            values = (year,)
+            cursor.execute(sql, values)
+            self.connection.commit()
+            self.closeAll()
+            print("Delete done")
+        except Exception as e:
+            print("Error deleting data:", e)
+    
     def convertToDictionary(self, result):
-        colnames=['id','title','author', "price"]
+        colnames = ['year', 'sex', 'age_group', 'average_height']
         item = {}
-        
+
         if result:
             for i, colName in enumerate(colnames):
                 value = result[i]
                 item[colName] = value
-        
+
         return item
-        
-bookDAO = BookDAO()
+
+# Create an instance of the DataDAO class
+dataDAO = DataDAO()
+

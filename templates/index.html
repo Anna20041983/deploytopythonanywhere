@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Average Height & Weight</title>
+        <!-- Include jQuery from a CDN -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- Include Bootstrap v5 JavaScript and CSS -->       
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+        <script>
+            function logout() {
+                // Assuming your login page is named "login.html"
+                window.location.href = "./login";
+            }
+        </script>
+    </head>
+    <body>
+        <hr class="border border-primary border-3 opacity-75">
+  
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                <br><br>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary" onclick="logout()">Logout</button>
+                </div>
+                <h1>Average Height & Weight</h1>
+                <hr>
+                <h3><i>by Age Group and Sex</i></h3>
+                <br>
+                <div id="alert-container" style="display:none" class="alert alert-success alert-dismissible fade show" role="alert">
+                  <span id="alert-message"></span>             
+              </div><br>
+                  <button id="button-showCreate" class="btn btn-success btn-md" onclick="showCreate()">Create New Data</button><br/><br/>
+        <div>
+        <div class="col-25">
+            <table class="table table-hover text-center align-middle" id="DataTable">
+                <tr>
+                    <th scope="col">Year</th>
+                    <th scope="col">Sex</th>
+                    <th scope="col">Age Group</th>
+                    <th scope="col">Average Height (in centimetres)</th>  
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                <tr id="1">
+                    <td>2015</td>
+                    <td>Male</td>
+                    <td>20 - 24 years</td>
+                    <td>177.3</td>
+                    <td><button onclick="showUpdate(this)" class="btn btn-outline-warning">Update</button></td>
+                    <td><button onclick="doDelete(this)" class="btn btn-outline-danger">Delete</button></td>                  
+                </tr>
+                <tr id="2">
+                    <td>2015</td>
+                    <td>Female</td>
+                    <td>60 - 64 years</td>
+                    <td>166.2</td>
+                    <td><button onclick="showUpdate(this)" class="btn btn-outline-warning">Update</button></td>
+                    <td><button onclick="doDelete(this)" class="btn btn-outline-danger">Delete</button></td>                  
+                </tr>
+        </table>
+        <br/>
+ 
+        </div>
+        <div id="createUpdateForm" style="display:none">
+            <!-- spans are like divs but do not go onto a new line -->
+            <h2><span id="createLabel">Create a</span> <span id="updateLabel">Update this</span> Data</h2><br>
+            <div class="mb-3 row flex-wrap-reverse">
+                <div class="col-sm-5 align-self-stretch">
+                    <label for="selectYear" class="col-form-label">Year</label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selectYear" class="custom-select form-control" name="year">
+                        <option value="2015">2015</option>
+                        <option value="2019">2019</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row flex-wrap-reverse">
+                <div class="col-sm-5 align-self-stretch">
+                    <label for="selectSex" class="col-form-label">Sex</label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selectSex" class="custom-select form-control" name="sex">
+                        <option value="Both sexes">Both sexes</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row flex-wrap-reverse">
+                <div class="col-sm-5 align-self-stretch">
+                    <label for="selectAgeGroup" class="col-form-label">Age Group</label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selectAgeGroup" class="custom-select form-control" name="age_group">
+                        <option value="All ages">All ages</option>
+                        <option value="15 - 19 years">15 - 19 years</option>
+                        <option value="20 - 24 years">20 - 24 years</option>
+                        <option value="25 - 29 years">25 - 29 years</option>
+                        <option value="30 - 34 years">30 - 34 years</option>
+                        <option value="35 - 39 years">35 - 39 years</option>
+                        <option value="40 - 44 years">40 - 44 years</option>
+                        <option value="45 - 49 years">45 - 49 years</option>
+                        <option value="50 - 54 years">50 - 54 years</option>
+                        <option value="55 - 59 years">55 - 59 years</option>
+                        <option value="60 - 64 years">60 - 64 years</option>
+                        <option value="65 - 69 years">65 - 69 years</option>
+                        <option value="70 - 74 years">70 - 74 years</option>
+                        <option value="75 years and over">75 years and over</option>
+                    </select>
+                </div>
+            </div>         
+            <div class="row mb-3 align-items-center">
+                <div class="col-sm-5 align-center">
+                    <label for="inputNumber" class="form-label">Average Height</label>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-floating">
+                        <input type="text" id="inputNumber" class="form-control" name="average_height" placeholder="Type height in cm's">
+                        <label for="inputNumber"><i>Type average height in cm's</i></label>
+                    </div>
+                </div>
+            </div><br>           
+            <span><button id="button-doCreate" class="btn btn-primary" onclick="doCreate()">Create</button></span>
+ 			<span><button id="button-doUpdate" class="btn btn-info" onclick="doUpdate()">Update</button></span>
+             <!-- "display:none" will make it hidden-->
+        </div>        
+    </body>
+    <script>
+
+        console.log("hello world")
+        function showCreate(){
+            document.getElementById("createUpdateForm").style.display = "block"
+            
+            document.getElementById("button-doCreate").style.display = "block"
+            document.getElementById("button-doUpdate").style.display = "none"
+            document.getElementById("createLabel").style.display = "inline"
+            document.getElementById("updateLabel").style.display = "none"
+
+            document.getElementById("button-showCreate").style.display = "none"
+            document.getElementById("DataTable").style.display = "none"
+            
+        }
+        function showUpdate(buttonElement){
+            document.getElementById("createUpdateForm").style.display = "block"
+           
+            document.getElementById("button-doCreate").style.display = "none"
+            document.getElementById("button-doUpdate").style.display = "block"
+            document.getElementById("createLabel").style.display = "none"
+            document.getElementById("updateLabel").style.display = "inline"
+
+            document.getElementById("button-showCreate").style.display = "none"
+            document.getElementById("DataTable").style.display = "none"
+
+            rowElement= buttonElement.parentNode.parentNode
+            cso_data = getDataFromRow(rowElement)
+            console.log("updating")
+
+            populateFormWithData(cso_data)
+            
+        }
+        function showViewAll(){
+            document.getElementById("createUpdateForm").style.display = "none"
+           
+            document.getElementById("button-showCreate").style.display = "block"
+            document.getElementById("DataTable").style.display = "block"
+            
+        }
+        function clearForm(){
+            var form = document.getElementById('createUpdateForm')
+
+            form.querySelector('select[name="year"]').disabled = false
+            form.querySelector('select[name="year"]').value  =''
+            form.querySelector('select[name="sex"]').value=''
+            form.querySelector('select[name="age_group"]').value=''
+            form.querySelector('input[name="average_height"]').value=''
+            //form.querySelector('select[name="type_of_disability"]').value=''
+            //form.querySelector('input[name="no_of_children"]').value=''
+        }
+        
+        function getDataFromForm(){
+            var form = document.getElementById('createUpdateForm')
+
+            var cso_data = {}
+            cso_data.year = form.querySelector('select[name="year"]').value
+        	cso_data.sex = form.querySelector('select[name="sex"]').value
+        	cso_data.age_group = form.querySelector('select[name="age_group"]').value
+        	cso_data.average_height = form.querySelector('input[name="average_height"]').value
+            //cso_data.type_of_disability = form.querySelector('select[name="type_of_disability"]').value
+            //cso_data.no_of_children = form.querySelector('input[name="no_of_children"]').value
+        	console.log(JSON.stringify(cso_data))
+            return cso_data
+        }
+        function populateFormWithData(cso_data){
+       		var form = document.getElementById('createUpdateForm')
+            form.querySelector('select[name="year"]').disabled = true
+       		form.querySelector('select[name="year"]').value  = cso_data.year
+       		form.querySelector('select[name="sex"]').value= cso_data.sex
+            form.querySelector('select[name="age_group"]').value= cso_data.age_group
+        	form.querySelector('input[name="average_height"]').value= cso_data.average_height
+            //form.querySelector('select[name="type_of_disability"]').value= cso_data.type_of_disability
+            //form.querySelector('input[name="no_of_children"]').value= cso_data.no_of_children
+    }
+
+
+        function addDataToTable(cso_data){
+            var tableElement = document.getElementById('DataTable')
+            var rowElement = tableElement.insertRow(-1)
+            
+            rowElement.setAttribute('id',cso_data.year)
+            
+            var cell1 = rowElement.insertCell(0);
+            cell1.innerHTML = cso_data.year
+            var cell2 = rowElement.insertCell(1);
+            cell2.innerHTML = cso_data.sex
+            var cell3 = rowElement.insertCell(2);
+            cell3.innerHTML = cso_data.age_group
+            var cell4 = rowElement.insertCell(3);
+            cell4.innerHTML = cso_data.average_height
+            //var cell5 = rowElement.insertCell(4);
+            //cell5.innerHTML = cso_data.type_of_disability
+            //var cell6 = rowElement.insertCell(5);
+            //cell6.innerHTML = cso_data.no_of_children
+            var cell5 = rowElement.insertCell(4);
+            cell5.innerHTML = '<button onclick="showUpdate(this) "class="btn btn-outline-warning">Update</button>'
+            var cell6 = rowElement.insertCell(5);
+            cell6.innerHTML = '<button onclick=doDelete(this) class="btn btn-outline-danger">Delete</button>'
+
+        }
+        function getDataFromRow(rowElement){
+            var cso_data ={}
+            cso_data.year  = rowElement.cells[0].firstChild.textContent
+            cso_data.sex = rowElement.cells[1].firstChild.textContent
+            cso_data.age_group = rowElement.cells[2].firstChild.textContent
+            cso_data.average_height = rowElement.cells[3].firstChild.textContent
+            //cso_data.type_of_disability = rowElement.cells[4].firstChild.textContent
+            //cso_data.no_of_children = rowElement.cells[5].firstChild.textContent
+            return cso_data
+        }
+        function setDataInRow(rowElement, cso_data){
+            rowElement.cells[0].firstChild.textContent= cso_data.year 
+            rowElement.cells[1].firstChild.textContent= cso_data.sex
+            rowElement.cells[2].firstChild.textContent= cso_data.age_group
+            rowElement.cells[3].firstChild.textContent= cso_data.average_height
+            //rowElement.cells[4].firstChild.textContent= cso_data.type_of_disability
+            //rowElement.cells[5].firstChild.textContent= cso_data.no_of_children
+        }
+
+        // Function to display messages
+        function showAlert(message, type = 'success') {
+            var alertContainer = document.getElementById('alert-container');
+            var alertMessage = document.getElementById('alert-message');
+
+            alertContainer.style.display = 'block';
+            alertContainer.className = `alert alert-${type} alert-dismissible fade show`;
+            alertMessage.innerHTML = message;
+
+            // Hide the message after a few seconds
+            setTimeout(function () {
+                alertContainer.style.display = 'none';
+            }, 9000);
+        }
+
+        function doCreate(){
+            console.log("doCreate function called");
+            var cso_data = getDataFromForm()
+            if (!validateFormData(cso_data)) {
+            // Display an error message to the user 
+                showAlert('Please fill out all fields before creating data!', 'danger');
+                return;
+            }
+            console.log("Data from form:", JSON.stringify(cso_data))
+            addDataToTable(cso_data)
+            showViewAll()
+            clearForm()
+            createDataAjax(cso_data)
+        }
+
+        function doUpdate(){
+            var cso_data= getDataFromForm()
+            console.log("Updating data:", JSON.stringify(cso_data));
+            if (!validateFormData(cso_data)) {
+            // Display an error message to the user
+            showAlert('Please fill out all fields before updating data!', 'danger');
+            return;
+        }
+            //console.log(cso_data)
+            var rowElement = document.getElementById(cso_data.year)
+            if (rowElement) {
+                setDataInRow(rowElement, cso_data);
+                showViewAll();
+                clearForm();
+                updateDataAjax(cso_data);
+            } else {
+                console.error("Error: Row element not found for update");
+            }
+        }
+
+        function doDelete(buttonElement){
+            console.log("in delete")
+            var tableElement = document.getElementById('DataTable')
+            var rowElement = buttonElement.parentNode.parentNode; // Get the row element
+            var year = rowElement.getAttribute("id");  // Use "id" attribute instead of "year"
+
+            if (year) {
+                tableElement.deleteRow(rowElement.rowIndex);
+                deleteDataAjax(year);
+ 
+            } else {
+                console.error("Error: Invalid year for deletion");
+            }
+
+        }
+
+        function validateFormData(cso_data) {
+                return cso_data.year && cso_data.sex && cso_data.age_group && cso_data.average_height;
+        }
+
+        function getAllAjax() {
+            try {
+                $.ajax({
+                    "url": "http://127.0.0.1:5000/cso_data",
+                    "method": "GET",
+                    "dataType": "JSON",
+                    "success": function (result) {
+                        console.log(result);
+                        for (cso_data of result) {
+                            addDataToTable(cso_data);
+                        }
+                    },
+                    "error": function (xhr, status, error) {
+                        console.error("Error fetching data: " + status + " - " + error);
+                    }
+                });
+            } catch (e) {
+                console.error("An unexpected error occurred: " + e);
+            }
+        }
+
+        function createDataAjax(cso_data) {
+            try {
+                console.log(JSON.stringify(cso_data));
+                $.ajax({
+                    "url": "http://127.0.0.1:5000/cso_data",
+                    "method": "POST",
+                    "data": JSON.stringify(cso_data),
+                    "dataType": "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    "success": function (result) {
+                        console.log(result);
+                        cso_data.year = result.year;
+                        //addDataToTable(cso_data);
+                        clearForm();
+                        showViewAll();
+                        showAlert('Data added successfully!', 'success');
+                    },
+                    "error": function (xhr, status, error) {
+                        console.error("Error creating data: " + status + " - " + error);
+                    }
+                });
+            } catch (e) {
+                console.error("An unexpected error occurred: " + e);
+            }
+        }
+        function updateDataAjax(cso_data){
+            try {
+                console.log(JSON.stringify(cso_data));
+                $.ajax({
+                    "url": "http://127.0.0.1:5000/cso_data/"+encodeURI(cso_data.year),
+                    "method":"PUT",
+                    "data":JSON.stringify(cso_data),
+                    "dataType": "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    "success":function(result){
+                    console.log(result);
+                    showAlert('Data updated successfully!', 'info');
+                      
+                    },
+                    "error":function(xhr,status,error){
+                        console.log("error: "+status+" msg:"+error);
+                    }
+                });
+            } catch (e) {
+                console.error("An unexpected error occurred: " + e);
+            }
+        }
+
+        function deleteDataAjax(year){
+            try {
+            
+                console.log(JSON.stringify('deleting '+year));
+                $.ajax({
+                    "url": "http://127.0.0.1:5000/cso_data/"+encodeURI(year),
+                    "method":"DELETE",
+                    "data":"",
+                    "dataType": "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    "success":function(result){
+                        console.log(result);
+                        showAlert('Data deleted successfully!', 'danger');
+                      
+                    },
+                    "error":function(xhr,status,error){
+                        console.log("error: "+status+" msg:"+error);
+                    }
+                });
+            } catch (e) {
+                console.error("An unexpected error occurred: " + e);
+            }
+        }
+        
+
+        getAllAjax();
+        
+    </script>
+</html>

@@ -322,7 +322,7 @@
         function getAllAjax() {
             try {
                 $.ajax({
-                    "url": "http://127.0.0.1:5000/cso_data",
+                    "url": "/cso_data",
                     "method": "GET",
                     "dataType": "JSON",
                     "success": function (result) {
@@ -344,7 +344,7 @@
             try {
                 console.log(JSON.stringify(cso_data));
                 $.ajax({
-                    "url": "http://127.0.0.1:5000/cso_data",
+                    "url": "/cso_data",
                     "method": "POST",
                     "data": JSON.stringify(cso_data),
                     "dataType": "JSON",
@@ -369,7 +369,7 @@
             try {
                 console.log(JSON.stringify(cso_data));
                 $.ajax({
-                    "url": "http://127.0.0.1:5000/cso_data/"+encodeURI(cso_data.year),
+                    "url": "/cso_data/"+encodeURI(cso_data.year),
                     "method":"PUT",
                     "data":JSON.stringify(cso_data),
                     "dataType": "JSON",
@@ -393,7 +393,7 @@
             
                 console.log(JSON.stringify('deleting '+year));
                 $.ajax({
-                    "url": "http://127.0.0.1:5000/cso_data/"+encodeURI(year),
+                    "url": "/cso_data/"+encodeURI(year),
                     "method":"DELETE",
                     "data":"",
                     "dataType": "JSON",

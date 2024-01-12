@@ -4,13 +4,13 @@ db = mysql.connector.connect(
   host="localhost",
   user="root",
   password="",
-  #user="datarep",  # this is the user name on my mac
-  #passwd="password" # for my mac
+  #'user':"annak83",
+  #'password':"datareppass"
   database="datarepresentation"
 )
 
 cursor = db.cursor()
-sql="CREATE TABLE student (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(250), age INT)"
+sql="CREATE TABLE data (year VARCHAR(250), sex VARCHAR(250), age_group VARCHAR(250), average_height float)"
 
 cursor.execute(sql)
 

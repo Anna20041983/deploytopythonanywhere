@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request, abort, redirect, url_for, session
-from flask_cors import CORS
+#from flask_cors import CORS
 from dataDAO import dataDAO
 
 app = Flask(__name__, template_folder='templates', static_url_path='', static_folder='.')
-CORS(app)  # Enable CORS for all routes
+#CORS(app)  # Enable CORS for all routes
 
 app.secret_key = 'secret_key'  
 
